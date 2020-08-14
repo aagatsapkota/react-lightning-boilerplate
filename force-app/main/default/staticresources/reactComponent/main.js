@@ -7655,8 +7655,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -7669,104 +7667,65 @@ __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var App = function App(props) {
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+  var exampleMessageValue = (0, _react.useState)(props);
+  console.log(props);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  (0, _react.useEffect)(function () {
+    _lightningContainer2.default.addMessageHandler(messageRecievedHandler);
+  });
 
-var App = function (_Component) {
-  _inherits(App, _Component);
-
-  function App(props) {
-    _classCallCheck(this, App);
-
-    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this.state = {
-      exampleMessageValue: 'Hello from React!'
-    };
-    return _this;
-  }
-
-  // read in the email without pressing the email
-  // convert this into functional component, remove componentDidMount
-  // like the website,
-  // useEffect its gonna replace componentDID
-  // inside useEffect, fire the LCC.addMessageHandler, and the clickbutton
-  // how to convert react components to functional component using hooks
-  // just fire LCC.sendMessage
-  // useState set it in state, that happens inside of messageReceivedHandler
-  //
+  var messageRecievedHandler = function messageRecievedHandler(msg) {
+    var name = msg.name,
+        value = msg.value;
 
 
-  _createClass(App, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      _lightningContainer2.default.addMessageHandler(this.messageRecievedHandler);
-    }
-  }, {
-    key: 'messageRecievedHandler',
-    value: function messageRecievedHandler(msg) {
-      var name = msg.name,
-          value = msg.value;
+    console.log('Messaged received.');
+    console.log('Message name: ' + name);
+    console.log('Message value: ' + value);
+  };
 
+  var sendMessage = function sendMessage(msg) {
+    // Message format should be an object like { name: "messageName", value: "message value"}
+    _lightningContainer2.default.sendMessage(msg);
+  };
 
-      console.log('Messaged received.');
-      console.log('Message name: ' + name);
-      console.log('Message value: ' + value);
+  var sendMessageExample = function sendMessageExample() {
+    // You can wrap the send message function to easily send specific message types.
 
-      // Add Any Logic that should be handled here.
+    sendMessage({
+      name: 'example',
+      value: exampleMessageValue
+    });
+  };
 
-      switch (name) {
-        case 'example':
-          console.log('Handle Example Messgage');
-          break;
-        default:
-          console.log('Do Nothing');
-      }
-    }
-  }, {
-    key: 'sendMessage',
-    value: function sendMessage(msg) {
-      // Message format should be an object like { name: "messageName", value: "message value"}
-      _lightningContainer2.default.sendMessage(msg);
-    }
-  }, {
-    key: 'sendMessageExample',
-    value: function sendMessageExample() {
-      // You can wrap the send message function to easily send specific message types.
+  // in return, button will go away, return { email }
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'A React Component!'
+    ),
+    _react2.default.createElement(
+      'button',
+      { type: 'submit', onClick: sendMessageExample.bind() },
+      'Test'
+    )
+  );
+};
 
-      this.sendMessage({
-        name: 'example',
-        value: this.state.exampleMessageValue
-      });
-    }
-
-    // in return, button will go away, return { email }
-
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'p',
-          null,
-          'A React Component!'
-        ),
-        _react2.default.createElement(
-          'button',
-          { type: 'submit', onClick: this.sendMessageExample.bind(this) },
-          'Test'
-        )
-      );
-    }
-  }]);
-
-  return App;
-}(_react.Component);
+// read in the email without pressing the email
+// convert this into functional component, remove componentDidMount
+// like the website,
+// useEffect its gonna replace componentDID
+// inside useEffect, fire the LCC.addMessageHandler, and the clickbutton
+// how to convert react components to functional component using hooks
+// just fire LCC.sendMessage
+// useState set it in state, that happens inside of messageReceivedHandler
+//
 
 exports.default = App;
 
