@@ -105,8 +105,7 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log(_App2.default);
-_reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('root'));
+_reactDom2.default.render(_react2.default.createElement(_App2.default, { props: 'v.message.Email' }), document.getElementById('root'));
 
 /***/ }),
 /* 1 */
@@ -7655,6 +7654,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -7667,66 +7668,43 @@ __webpack_require__(14);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function App(props) {
-
-  var exampleMessageValue = (0, _react.useState)(props);
-  console.log(props);
-
-  (0, _react.useEffect)(function () {
-    _lightningContainer2.default.addMessageHandler(messageRecievedHandler);
-  });
+var App = function App() {
+  var _useState = (0, _react.useState)(),
+      _useState2 = _slicedToArray(_useState, 2),
+      email = _useState2[0],
+      setEmail = _useState2[1];
 
   var messageRecievedHandler = function messageRecievedHandler(msg) {
     var name = msg.name,
         value = msg.value;
 
-
-    console.log('Messaged received.');
     console.log('Message name: ' + name);
     console.log('Message value: ' + value);
+    setEmail(value);
   };
-
-  var sendMessage = function sendMessage(msg) {
-    // Message format should be an object like { name: "messageName", value: "message value"}
-    _lightningContainer2.default.sendMessage(msg);
-  };
-
-  var sendMessageExample = function sendMessageExample() {
-    // You can wrap the send message function to easily send specific message types.
-
-    sendMessage({
+  (0, _react.useLayoutEffect)(function () {
+    console.log('Check', email);
+    _lightningContainer2.default.addMessageHandler(messageRecievedHandler);
+    _lightningContainer2.default.sendMessage({
       name: 'example',
-      value: exampleMessageValue
+      value: 'exampleMessageValue'
     });
-  };
-
-  // in return, button will go away, return { email }
+  }, []);
   return _react2.default.createElement(
     'div',
     null,
     _react2.default.createElement(
       'p',
       null,
-      'A React Component!'
+      email
     ),
     _react2.default.createElement(
       'button',
-      { type: 'submit', onClick: sendMessageExample.bind() },
-      'Test'
+      { type: 'submit' },
+      'Press Me'
     )
   );
 };
-
-// read in the email without pressing the email
-// convert this into functional component, remove componentDidMount
-// like the website,
-// useEffect its gonna replace componentDID
-// inside useEffect, fire the LCC.addMessageHandler, and the clickbutton
-// how to convert react components to functional component using hooks
-// just fire LCC.sendMessage
-// useState set it in state, that happens inside of messageReceivedHandler
-//
-
 exports.default = App;
 
 /***/ }),
