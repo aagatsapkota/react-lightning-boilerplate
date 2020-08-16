@@ -7682,14 +7682,14 @@ var App = function App() {
     console.log('Message value: ' + value);
     setEmail(value);
   };
-  (0, _react.useLayoutEffect)(function () {
-    console.log('Check', email);
+  (0, _react.useEffect)(function () {
     _lightningContainer2.default.addMessageHandler(messageRecievedHandler);
     _lightningContainer2.default.sendMessage({
       name: 'example',
       value: 'exampleMessageValue'
     });
   }, []);
+
   return _react2.default.createElement(
     'div',
     null,
@@ -7697,11 +7697,6 @@ var App = function App() {
       'p',
       null,
       email
-    ),
-    _react2.default.createElement(
-      'button',
-      { type: 'submit' },
-      'Press Me'
     )
   );
 };

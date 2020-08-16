@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import LCC from 'lightning-container'
 import './App.css'
 
@@ -10,18 +10,17 @@ const App = () => {
     console.log(`Message value: ${value}`)
     setEmail(value)
   }
-  useLayoutEffect(() => {
-    console.log('Check', email)
+  useEffect(() => {
     LCC.addMessageHandler(messageRecievedHandler)
     LCC.sendMessage({
       name: 'example',
       value: 'exampleMessageValue'
     })
   }, [])
+
   return (
     <div>
       <p>{ email }</p>
-      <button type="submit">Press Me</button>
     </div>
   )
 }

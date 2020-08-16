@@ -7,12 +7,24 @@
     recordId="{!v.recordId}"
     fields="Name,Email"
     />
-	
+    
+    <force:recordData 
+    aura:id="recordEditor"
+    targetFields="{!v.message}"
+    recordId="{!v.recordId}"
+    fields="Email"
+    mode="EDIT"
+    />
+
     <lightning:card iconName="standard:account" title="{!v.message.Email}">
 
         <lightning:container aura:id="jsApp" src="{!$Resource.ReactComponent + '/index.html'}"
-            onmessage="{!c.handleMessage}"
-            onerror="{!c.handleError}"/>
+            onerror="{!c.handleError}"
+        />
+        <!-- onmessage="{!c.handleMessage}" -->
+        <lightning:input label="Email" value="{!v.message.Email}" />
+        <br />
+        <lightning:button label="Save" variant="brand" onclick="{!c.handleSaveRecord}" /> 
 
     </lightning:card>
 
